@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4335313285656400}
   - component: {fileID: 33658216119200674}
   - component: {fileID: 23383294205509126}
+  - component: {fileID: 65789652385281340}
   m_Layer: 0
   m_Name: mur2
   m_TagString: Untagged
@@ -35,7 +36,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1163177164555584}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -80,3 +81,15 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1163177164555584}
   m_Mesh: {fileID: 4300012, guid: 4a6f41b055cbaa043a58800c9a692277, type: 3}
+--- !u!65 &65789652385281340
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1163177164555584}
+  m_Material: {fileID: 13400000, guid: a11bf57460592634c97164aa869f9ed3, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000004, y: 0.9903146, z: 0.15084754}
+  m_Center: {x: 0.50000006, y: 0.49515718, z: -0.00000055134296}

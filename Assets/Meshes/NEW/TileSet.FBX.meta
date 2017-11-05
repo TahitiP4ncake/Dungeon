@@ -15,6 +15,23 @@ ModelImporter:
     100014: sol2
     100016: sol3
     100018: //RootNode
+    100020: CadrePorte
+    100022: plancheBroken00
+    100024: plancheBroken01
+    100026: plancheBroken02
+    100028: plancheBroken03
+    100030: plancheBroken04
+    100032: plancheBroken05
+    100034: plancheBroken06
+    100036: plancheBroken07
+    100038: plancheBroken08
+    100040: plancheBroken09
+    100042: plancheBroken10
+    100044: plancheBroken11
+    100046: plancheBroken12
+    100048: plancheBroken13
+    100050: plancheBroken14
+    100052: PorteBroken
     400000: chandelle
     400002: colonne
     400004: fenetre
@@ -25,6 +42,23 @@ ModelImporter:
     400014: sol2
     400016: sol3
     400018: //RootNode
+    400020: CadrePorte
+    400022: plancheBroken00
+    400024: plancheBroken01
+    400026: plancheBroken02
+    400028: plancheBroken03
+    400030: plancheBroken04
+    400032: plancheBroken05
+    400034: plancheBroken06
+    400036: plancheBroken07
+    400038: plancheBroken08
+    400040: plancheBroken09
+    400042: plancheBroken10
+    400044: plancheBroken11
+    400046: plancheBroken12
+    400048: plancheBroken13
+    400050: plancheBroken14
+    400052: PorteBroken
     2300000: chandelle
     2300002: colonne
     2300004: fenetre
@@ -34,6 +68,23 @@ ModelImporter:
     2300012: sol1
     2300014: sol2
     2300016: sol3
+    2300018: CadrePorte
+    2300020: plancheBroken00
+    2300022: plancheBroken01
+    2300024: plancheBroken02
+    2300026: plancheBroken03
+    2300028: plancheBroken04
+    2300030: plancheBroken05
+    2300032: plancheBroken06
+    2300034: plancheBroken07
+    2300036: plancheBroken08
+    2300038: plancheBroken09
+    2300040: plancheBroken10
+    2300042: plancheBroken11
+    2300044: plancheBroken12
+    2300046: plancheBroken13
+    2300048: plancheBroken14
+    2300050: PorteBroken
     3300000: chandelle
     3300002: colonne
     3300004: fenetre
@@ -43,6 +94,23 @@ ModelImporter:
     3300012: sol1
     3300014: sol2
     3300016: sol3
+    3300018: CadrePorte
+    3300020: plancheBroken00
+    3300022: plancheBroken01
+    3300024: plancheBroken02
+    3300026: plancheBroken03
+    3300028: plancheBroken04
+    3300030: plancheBroken05
+    3300032: plancheBroken06
+    3300034: plancheBroken07
+    3300036: plancheBroken08
+    3300038: plancheBroken09
+    3300040: plancheBroken10
+    3300042: plancheBroken11
+    3300044: plancheBroken12
+    3300046: plancheBroken13
+    3300048: plancheBroken14
+    3300050: PorteBroken
     4300000: Porte
     4300002: colonne
     4300004: sol2
@@ -52,6 +120,23 @@ ModelImporter:
     4300012: mur2
     4300014: sol1
     4300016: fenetre
+    4300018: CadrePorte
+    4300020: plancheBroken00
+    4300022: plancheBroken02
+    4300024: plancheBroken03
+    4300026: plancheBroken04
+    4300028: plancheBroken05
+    4300030: plancheBroken06
+    4300032: plancheBroken07
+    4300034: plancheBroken08
+    4300036: plancheBroken09
+    4300038: plancheBroken10
+    4300040: plancheBroken11
+    4300042: plancheBroken12
+    4300044: plancheBroken13
+    4300046: plancheBroken14
+    4300048: plancheBroken01
+    4300050: PorteBroken
     9500000: //RootNode
   materials:
     importMaterials: 1
