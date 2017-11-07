@@ -19,9 +19,17 @@ public class RoomGenerator : MonoBehaviour {
     public List<GameObject> mur;
     public List<GameObject> sol;
 
+
+
     #endregion
 
     public List<GameObject> assets;
+
+	//Arrays
+
+	bool[,] aColonnes;
+
+	public int minSize;
 
     /*
     void Start () 
@@ -44,6 +52,11 @@ public class RoomGenerator : MonoBehaviour {
         
     }
     */
+
+	void Start()
+	{
+		aColonnes = new bool[x, y];
+	}
 
     public void DrawRoom()
     {
@@ -128,4 +141,12 @@ public class RoomGenerator : MonoBehaviour {
         
         
     }
+
+	void Divide(bool[,] start, bool[,] end)
+	{
+		//prend la taille de la room a diviser
+		//coupe à peu près au milieu
+		//place des colonnes sur le x de la découpe et les y de la room (ou l'inverse)
+
+	}
 }
