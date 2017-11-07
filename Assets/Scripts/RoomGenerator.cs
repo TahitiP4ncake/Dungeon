@@ -27,9 +27,11 @@ public class RoomGenerator : MonoBehaviour {
 
 	//Arrays
 
-	bool[,] aColonnes;
+	public bool[,] aColonnes;
 
 	public int minSize;
+
+    int direction; //0 horizontal / 1 vertical
 
     /*
     void Start () 
@@ -53,13 +55,10 @@ public class RoomGenerator : MonoBehaviour {
     }
     */
 
-	void Start()
-	{
-		aColonnes = new bool[x, y];
-	}
 
     public void DrawRoom()
     {
+        aColonnes = new bool[x+1, y+1];
         EraseRoom();
 
         for (int i = 0; i <= x; i++)
@@ -74,15 +73,25 @@ public class RoomGenerator : MonoBehaviour {
 
                 if(bordX||bordY)
                 {
-                    Colonne(i,o);
-
-                    if (bordX && o<y)
+                    //Colonne(i,o);
+                    //print(i + " " + o);
                     
-                        MurX(i, o);
-                    if (bordY && i<x)
-                        MurY(i, o);
+
+
+                        aColonnes[i, o] = true;
+                    
+
+                    //if (bordX && o<y)
+                    
+                       // MurX(i, o);
+                    //if (bordY && i<x)
+                        //MurY(i, o);
                     
                     bordY = false;
+                }
+                else
+                {
+                    aColonnes[i, o] = false ;
                 }
 
                 if(i!=x && o!=y)
@@ -91,6 +100,11 @@ public class RoomGenerator : MonoBehaviour {
             }
             bordX = false;
         }
+
+        Divide((int)origin.x, (int)origin.y, (int)origin.x + x, (int)origin.z + y);
+
+        PutColonne();
+
         SetParent();
     }
 
@@ -142,11 +156,92 @@ public class RoomGenerator : MonoBehaviour {
         
     }
 
-	void Divide(bool[,] start, bool[,] end)
+	void Divide(int startX,int startY, int endX,int endY)
 	{
-		//prend la taille de la room a diviser
+        int _x = endX-startX;
+        int _y = endY-startY;
+
+        
+        direction = Random.Range(0, 2);
+        
+        switch(direction)
+        {
+            case 0:  //Try divide up
+
+                if (_y / 2 > minSize)
+                {
+                    _y = _y / 2 + Random.Range(-1, 2);
+                    for (int i = startX + 1; i < endX; i++)
+                    {
+                        aColonnes[i, _y] = true;
+                    }
+                }
+                else if (_x / 2 > minSize)
+                {
+                    _x = _x / 2 + Random.Range(-1, 2);
+                    for (int i = startY + 1; i < endY; i++)
+                    {
+                        aColonnes[_x, i] = true;
+                    }
+                }
+                else
+                {
+                    Debug.Log("Can't Divide more");
+                }
+                break;
+
+            case 1: //Try divide right
+
+                if (_x / 2 > minSize)
+                {
+                    _x = _x / 2 + Random.Range(-1, 2);
+                    for (int i = startY + 1; i < endY; i++)
+                    {
+                        aColonnes[_x, i] = true;
+                    }
+                }
+                else if (_y / 2 > minSize)
+                {
+                    _y = _y / 2 + Random.Range(-1, 2);
+                    for (int i = startX + 1; i < endX; i++)
+                    {
+                        aColonnes[i,_y] = true;
+                    }
+                }
+                else
+                {
+                    Debug.Log("Can't Divide more");
+                }
+                break;
+
+            default:
+
+                Debug.Log("Couldn't decide which way to go");
+
+                break;
+        }
+
+       
 		//coupe à peu près au milieu
 		//place des colonnes sur le x de la découpe et les y de la room (ou l'inverse)
 
 	}
+
+    void PutColonne()
+    {
+        for (int i = 0; i < x+1; i++)
+        {
+            for (int o = 0; o < y + 1; o++)
+            {
+
+                
+                    if (aColonnes[i, o])
+                    {
+                        print(aColonnes[i, o]);
+                        assets.Add(Instantiate(colonne, new Vector3(i, 0, o), colonne.transform.rotation));
+                    }
+                
+            }
+        }
+    }
 }
