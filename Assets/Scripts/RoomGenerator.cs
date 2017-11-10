@@ -402,38 +402,6 @@ public class RoomGenerator : MonoBehaviour {
 						}
 					}
 
-
-
-
-					/*
-                    if (CheckWallY(i, o))
-                    {
-                        if (arrayPortesY[i, o])
-                        {
-                            DoorY(i, o);
-                            print("porte Y");
-                        }
-                        else
-                        {
-
-
-                            MurY(i, o);
-                        }
-                    }
-
-                    if (CheckWallX(i, o))
-                    {
-                        if (arrayPortesX[i, o])
-                        {
-                            DoorX(i, o);
-                            print("porte X");
-                        }
-                        else
-                        {
-                            MurX(i, o);
-                        }
-                    }
-                    */
                     
                     }
                 
