@@ -15,13 +15,15 @@ public class RoomGenerator : MonoBehaviour {
 
     #region Tileset
 
-    public GameObject colonne;
+    
     public List<GameObject> mur;
     public List<GameObject> sol;
 
+	public GameObject colonne;
+
     public GameObject porte;
 
-
+	public GameObject torche;
 
     #endregion
 
@@ -37,9 +39,15 @@ public class RoomGenerator : MonoBehaviour {
 
     bool[,] arrayPortesY;
 
+
+
     [Space]
 
 	public int minSize;
+
+	public int variationMax;
+
+
 
     int direction; //0 horizontal / 1 vertical
 
@@ -51,10 +59,14 @@ public class RoomGenerator : MonoBehaviour {
 
     List<List<int>> tampon = new List<List<int>>();
 
-    
+    [Space]
+
+	public bool generateOnStart;
+
     void Start () 
 	{
-       // DrawRoom();
+		if(generateOnStart)
+       DrawRoom();
 	}
 
 	/*
@@ -197,7 +209,7 @@ public class RoomGenerator : MonoBehaviour {
 
         direction = 0;
 
-        variation = Random.Range(-1, 2);
+		variation = Random.Range(-variationMax, variationMax+1);
 
         switch (direction)
         {
@@ -224,8 +236,8 @@ public class RoomGenerator : MonoBehaviour {
                     _mur.Add(_y);
                     listMur.Add(_mur);
                     */
-					int doorX = (startX + endX) / 2;
-					int doorY = (_y + _y) / 2;
+				int doorX = Random.Range(startX,endX);
+					int doorY = _y;
 					arrayPortesY [doorX, doorY] = true;
 
                     Divide(startX, startY, endX, _y);
@@ -255,8 +267,8 @@ public class RoomGenerator : MonoBehaviour {
                     listMur.Add(_mur);
                   */
 
-				int doorX = (_x + _x) / 2;
-				int doorY = (startY + endY) / 2;
+				int doorX = _x;
+				int doorY = Random.Range(startY,endY);
 				arrayPortesX [doorX, doorY] = true;
 
                     Divide(startX, startY, _x, endY);
@@ -294,8 +306,8 @@ public class RoomGenerator : MonoBehaviour {
                     listMur.Add(_mur);
                    */
 
-					int doorX = (_x + _x) / 2;
-					int doorY = (startY + endY) / 2;
+					int doorX = _x;
+				int doorY =Random.Range(startY,endY);
 					arrayPortesX [doorX, doorY] = true;
 
                     Divide(startX, startY, _x, endY);
@@ -319,8 +331,8 @@ public class RoomGenerator : MonoBehaviour {
                     listMur.Add(_mur);
 					*/
 
-				int doorX = (startX + endX) / 2;
-				int doorY = (_y + _y) / 2;
+				int doorX = Random.Range(startX,endX);
+				int doorY = _y;
 				arrayPortesY [doorX, doorY] = true;
 
                     Divide(startX, startY, endX, _y);
@@ -373,7 +385,11 @@ public class RoomGenerator : MonoBehaviour {
 						{
 							MurX (i, o);	
 						}
+
+
 					}
+
+
 					if(CheckWallY (i,o))
 					{
 						if(arrayPortesY[i,o])
@@ -493,6 +509,8 @@ public class RoomGenerator : MonoBehaviour {
     void DoorX(int _x, int _y)
     {
         assets.Add(Instantiate(porte, new Vector3(_x, 0, _y), Quaternion.Euler(new Vector3(0, -90, 0))));
+
+
     }
 
     void DoorY(int _x, int _y)
