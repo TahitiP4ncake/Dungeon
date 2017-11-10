@@ -128,7 +128,7 @@ public class RoomGenerator : MonoBehaviour {
 
         Divide((int)origin.x, (int)origin.y, (int)origin.x + x, (int)origin.z + y);
 
-        SetDoors();
+        //SetDoors();
 
         CreateRooms();
 
@@ -192,6 +192,7 @@ public class RoomGenerator : MonoBehaviour {
         int _y = endY-startY;
 
 
+
         //direction = Random.Range(0, 2);
 
         direction = 0;
@@ -215,13 +216,17 @@ public class RoomGenerator : MonoBehaviour {
                     {
                         arrayColonnes[i, _y] = true;
                     }
-
+					/*
                     List<int> _mur = new List<int>();
                     _mur.Add(startX);
                     _mur.Add(_y);
                     _mur.Add(endX);
                     _mur.Add(_y);
                     listMur.Add(_mur);
+                    */
+					int doorX = (startX + endX) / 2;
+					int doorY = (_y + _y) / 2;
+					arrayPortesY [doorX, doorY] = true;
 
                     Divide(startX, startY, endX, _y);
                     
@@ -240,13 +245,19 @@ public class RoomGenerator : MonoBehaviour {
                     {
                         arrayColonnes[_x, i] = true;
                     }
-
+					
+				/*
                     List<int> _mur = new List<int>();
                     _mur.Add(_x);
                     _mur.Add(startY);
                     _mur.Add(_x);
                     _mur.Add(endX);
                     listMur.Add(_mur);
+                  */
+
+				int doorX = (_x + _x) / 2;
+				int doorY = (startY + endY) / 2;
+				arrayPortesX [doorX, doorY] = true;
 
                     Divide(startX, startY, _x, endY);
                     Divide( _x, startY, endX, endY);
@@ -273,13 +284,19 @@ public class RoomGenerator : MonoBehaviour {
                     {
                         arrayColonnes[_x, i] = true;
                     }
-
+					
+				/*
                     List<int> _mur = new List<int>();
                     _mur.Add(_x);
                     _mur.Add(startY);
                     _mur.Add(_x);
                     _mur.Add(endX);
                     listMur.Add(_mur);
+                   */
+
+					int doorX = (_x + _x) / 2;
+					int doorY = (startY + endY) / 2;
+					arrayPortesX [doorX, doorY] = true;
 
                     Divide(startX, startY, _x, endY);
                     Divide(_x, startY, endX, endY);
@@ -293,12 +310,18 @@ public class RoomGenerator : MonoBehaviour {
                         arrayColonnes[i,_y] = true;
                     }
 
+					/*
                     List<int> _mur = new List<int>();
                     _mur.Add(startX);
                     _mur.Add(_y);
                     _mur.Add(endX);
                     _mur.Add(_y);
                     listMur.Add(_mur);
+					*/
+
+				int doorX = (startX + endX) / 2;
+				int doorY = (_y + _y) / 2;
+				arrayPortesY [doorX, doorY] = true;
 
                     Divide(startX, startY, endX, _y);
                     Divide(startX, _y, endX, endY);
@@ -340,7 +363,33 @@ public class RoomGenerator : MonoBehaviour {
                         assets.Add(Instantiate(colonne, new Vector3(i, 0, o), colonne.transform.rotation)); // on créer les colonnes
 
 
+					if(CheckWallX (i,o))
+					{
+						if(arrayPortesX[i,o])
+						{
+							DoorX (i, o);
+						}
+						else
+						{
+							MurX (i, o);	
+						}
+					}
+					if(CheckWallY (i,o))
+					{
+						if(arrayPortesY[i,o])
+						{
+							DoorY (i, o);
+						}
+						else
+						{
+							MurY (i, o);	
+						}
+					}
 
+
+
+
+					/*
                     if (CheckWallY(i, o))
                     {
                         if (arrayPortesY[i, o])
@@ -368,12 +417,14 @@ public class RoomGenerator : MonoBehaviour {
                             MurX(i, o);
                         }
                     }
+                    */
                     
                     }
                 
             }
         }
-    }
+	}
+    
 
     bool CheckWallY(int _x, int _y)
     {
@@ -412,7 +463,7 @@ public class RoomGenerator : MonoBehaviour {
         else
         {
 
-            print("Point not in the room");
+            //print("Point not in the room");
             return false;
         }
     }
