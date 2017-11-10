@@ -19,26 +19,45 @@ public class RoomGenerator : MonoBehaviour {
     public List<GameObject> mur;
     public List<GameObject> sol;
 
+    public GameObject porte;
+
 
 
     #endregion
+
+    [Space]
 
     public List<GameObject> assets;
 
 	//Arrays
 
-	public bool[,] aColonnes;
+	public bool[,] arrayColonnes;
+
+    bool[,] arrayPortesX;
+
+    bool[,] arrayPortesY;
+
+    [Space]
 
 	public int minSize;
 
     int direction; //0 horizontal / 1 vertical
 
-    /*
+    public int iteration;
+
+    int variation;
+
+    List<List<int>> listMur;
+
+    List<List<int>> tampon = new List<List<int>>();
+
+    
     void Start () 
 	{
-        
+       // DrawRoom();
 	}
-	
+
+	/*
 	void Update () 
 	{
         CheckInput();
@@ -58,7 +77,13 @@ public class RoomGenerator : MonoBehaviour {
 
     public void DrawRoom()
     {
-        aColonnes = new bool[x+1, y+1];
+        iteration = 0;
+
+        arrayColonnes = new bool[x+1, y+1];
+        arrayPortesX = new bool[x + 1, y + 1];
+        arrayPortesY = new bool[x + 1, y + 1];
+        listMur = new List<List<int>>();
+
         EraseRoom();
 
         for (int i = 0; i <= x; i++)
@@ -78,7 +103,7 @@ public class RoomGenerator : MonoBehaviour {
                     
 
 
-                        aColonnes[i, o] = true;
+                        arrayColonnes[i, o] = true;
                     
 
                     //if (bordX && o<y)
@@ -91,7 +116,7 @@ public class RoomGenerator : MonoBehaviour {
                 }
                 else
                 {
-                    aColonnes[i, o] = false ;
+                    arrayColonnes[i, o] = false ;
                 }
 
                 if(i!=x && o!=y)
@@ -103,7 +128,9 @@ public class RoomGenerator : MonoBehaviour {
 
         Divide((int)origin.x, (int)origin.y, (int)origin.x + x, (int)origin.z + y);
 
-        PutColonne();
+        SetDoors();
+
+        CreateRooms();
 
         SetParent();
     }
@@ -130,7 +157,7 @@ public class RoomGenerator : MonoBehaviour {
     {
         int _choice = Random.Range(0, sol.Count);
 
-        assets.Add(Instantiate(sol[_choice], new Vector3(_x, 0, _y), colonne.transform.rotation));
+        assets.Add(Instantiate(sol[_choice], new Vector3(_x, 0, _y), Quaternion.Euler(new Vector3(0, -90, 0))));
     }
 
     public void EraseRoom()
@@ -158,60 +185,132 @@ public class RoomGenerator : MonoBehaviour {
 
 	void Divide(int startX,int startY, int endX,int endY)
 	{
+        //print("tentative division");
+        
+
         int _x = endX-startX;
         int _y = endY-startY;
 
-        
-        direction = Random.Range(0, 2);
-        
-        switch(direction)
+
+        //direction = Random.Range(0, 2);
+
+        direction = 0;
+
+        variation = Random.Range(-1, 2);
+
+        switch (direction)
         {
             case 0:  //Try divide up
 
-                if (_y / 2 > minSize)
+                if ((startY +_y / 2 - Mathf.Abs(variation) + minSize ) < endY && (startY + _y / 2 - Mathf.Abs(variation) - minSize) > startY)
                 {
-                    _y = _y / 2 + Random.Range(-1, 2);
+                    
+                    iteration += 1;
+
+                    
+
+                    _y = _y / 2  + variation + startY;
+                    //print("je divise y a " + _y);
                     for (int i = startX + 1; i < endX; i++)
                     {
-                        aColonnes[i, _y] = true;
+                        arrayColonnes[i, _y] = true;
                     }
+
+                    List<int> _mur = new List<int>();
+                    _mur.Add(startX);
+                    _mur.Add(_y);
+                    _mur.Add(endX);
+                    _mur.Add(_y);
+                    listMur.Add(_mur);
+
+                    Divide(startX, startY, endX, _y);
+                    
+                    Divide(startX, _y, endX, endY);
+
+
                 }
-                else if (_x / 2 > minSize)
+                else if ((startX + _x / 2 - Mathf.Abs(variation) + minSize) < endX &&(startX +  _x / 2 - Mathf.Abs(variation) - minSize) > startX)
                 {
-                    _x = _x / 2 + Random.Range(-1, 2);
+                    //print("je divise x");
+                    iteration += 1;
+
+                    _x = _x / 2 + variation+startX;
+
                     for (int i = startY + 1; i < endY; i++)
                     {
-                        aColonnes[_x, i] = true;
+                        arrayColonnes[_x, i] = true;
                     }
+
+                    List<int> _mur = new List<int>();
+                    _mur.Add(_x);
+                    _mur.Add(startY);
+                    _mur.Add(_x);
+                    _mur.Add(endX);
+                    listMur.Add(_mur);
+
+                    Divide(startX, startY, _x, endY);
+                    Divide( _x, startY, endX, endY);
                 }
                 else
                 {
-                    Debug.Log("Can't Divide more");
+                    //print(_x + " " + _y);
+                    //Debug.Log("Can't Divide more");
+                    return;
                 }
+
+
+
+                //la faut lancer les deux autres divide avec les bonnes coordonnées 
+
                 break;
 
             case 1: //Try divide right
 
-                if (_x / 2 > minSize)
+                if ((startX + _x / 2 - Mathf.Abs(variation) + minSize )< endX && (startX + _x / 2 - Mathf.Abs(variation) - minSize )> startX)
                 {
-                    _x = _x / 2 + Random.Range(-1, 2);
+                    _x = _x / 2 + variation + startX;
                     for (int i = startY + 1; i < endY; i++)
                     {
-                        aColonnes[_x, i] = true;
+                        arrayColonnes[_x, i] = true;
                     }
+
+                    List<int> _mur = new List<int>();
+                    _mur.Add(_x);
+                    _mur.Add(startY);
+                    _mur.Add(_x);
+                    _mur.Add(endX);
+                    listMur.Add(_mur);
+
+                    Divide(startX, startY, _x, endY);
+                    Divide(_x, startY, endX, endY);
+
                 }
-                else if (_y / 2 > minSize)
+                else if ((startY + _y / 2 - Mathf.Abs(variation) + minSize) < endY &&(startY + _y / 2 - Mathf.Abs(variation) - minSize) > startY)
                 {
-                    _y = _y / 2 + Random.Range(-1, 2);
+                    _y = _y / 2 +variation + startY;
                     for (int i = startX + 1; i < endX; i++)
                     {
-                        aColonnes[i,_y] = true;
+                        arrayColonnes[i,_y] = true;
                     }
+
+                    List<int> _mur = new List<int>();
+                    _mur.Add(startX);
+                    _mur.Add(_y);
+                    _mur.Add(endX);
+                    _mur.Add(_y);
+                    listMur.Add(_mur);
+
+                    Divide(startX, startY, endX, _y);
+                    Divide(startX, _y, endX, endY);
+
                 }
                 else
                 {
-                    Debug.Log("Can't Divide more");
+                    //Debug.Log("Can't Divide more");
                 }
+
+                //relancer les divisions
+
                 break;
 
             default:
@@ -227,7 +326,7 @@ public class RoomGenerator : MonoBehaviour {
 
 	}
 
-    void PutColonne()
+    void CreateRooms()
     {
         for (int i = 0; i < x+1; i++)
         {
@@ -235,13 +334,118 @@ public class RoomGenerator : MonoBehaviour {
             {
 
                 
-                    if (aColonnes[i, o])
+                    if (arrayColonnes[i, o])
                     {
-                        print(aColonnes[i, o]);
-                        assets.Add(Instantiate(colonne, new Vector3(i, 0, o), colonne.transform.rotation));
+                        //print(aColonnes[i, o]);
+                        assets.Add(Instantiate(colonne, new Vector3(i, 0, o), colonne.transform.rotation)); // on créer les colonnes
+
+
+
+                    if (CheckWallY(i, o))
+                    {
+                        if (arrayPortesY[i, o])
+                        {
+                            DoorY(i, o);
+                            print("porte Y");
+                        }
+                        else
+                        {
+
+
+                            MurY(i, o);
+                        }
+                    }
+
+                    if (CheckWallX(i, o))
+                    {
+                        if (arrayPortesX[i, o])
+                        {
+                            DoorX(i, o);
+                            print("porte X");
+                        }
+                        else
+                        {
+                            MurX(i, o);
+                        }
+                    }
+                    
                     }
                 
             }
         }
+    }
+
+    bool CheckWallY(int _x, int _y)
+    {
+        if(_x>=origin.x && _x <x && _y>=origin.y && _y<=y)
+        {
+            if(arrayColonnes[_x+1,_y] ==true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            
+            print("Point not in the room");
+            return false;
+        }
+    }
+
+    bool CheckWallX(int _x, int _y)
+    {
+        if (_x >= origin.x && _x <= x && _y >= origin.y && _y < y)
+        {
+            if (arrayColonnes[_x, _y+1])
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+
+            print("Point not in the room");
+            return false;
+        }
+    }
+
+    void SetDoors()
+    {
+
+        print(listMur.Count);
+        foreach (List<int> _listMur in listMur)
+        {
+            /*
+            int _x = (int)Random.Range((float)_listMur[0], (float)_listMur[2]);
+            int _y = (int)Random.Range((float)_listMur[1], (float)_listMur[3]);
+            */
+            int _x = (_listMur[0] + _listMur[2]) / 2;
+            int _y = (_listMur[1] + _listMur[3]) / 2;
+
+            if(_listMur[0]==_listMur[2])
+                arrayPortesX[_x,_y] = true;
+            else
+                arrayPortesY[_x, _y] = true;
+            //print(_x + " "+ _y);
+        }
+        
+    }
+
+    void DoorX(int _x, int _y)
+    {
+        assets.Add(Instantiate(porte, new Vector3(_x, 0, _y), Quaternion.Euler(new Vector3(0, -90, 0))));
+    }
+
+    void DoorY(int _x, int _y)
+    {
+        assets.Add(Instantiate(porte, new Vector3(_x, 0, _y), colonne.transform.rotation));
     }
 }
