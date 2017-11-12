@@ -1,0 +1,262 @@
+fileFormatVersion: 2
+guid: 6ecdcfa13b1372b4ab89d0ed9093230b
+timeCreated: 1510512068
+licenseType: Free
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: bBrasD1
+    100002: bBrasD2
+    100004: bBrasG1
+    100006: bBrasG2
+    100008: bDoigtD1
+    100010: bDoigtD2
+    100012: bDoigtD3
+    100014: bDoigtG1
+    100016: bDoigtG2
+    100018: bDoigtG3
+    100020: bhead
+    100022: bJambeD1
+    100024: bJambeD2
+    100026: bJambeD3
+    100028: bJambeG1
+    100030: bJambeG2
+    100032: bJambeG3
+    100034: bMainD
+    100036: bMainG
+    100038: bPiedD1
+    100040: bPiedD2
+    100042: bPiedG1
+    100044: bPiedG2
+    100046: bSpine1
+    100048: bSpine2
+    100050: cBrasD1
+    100052: cBrasD2
+    100054: cBrasG1
+    100056: cBrasG2
+    100058: cDoigtD1
+    100060: cDoigtD2
+    100062: cDoigtD3
+    100064: cDoigtG1
+    100066: cDoigtG2
+    100068: cDoigtG3
+    100070: cHEad
+    100072: cJambeD1
+    100074: cJambeG1
+    100076: cMainD
+    100078: cMainG
+    100080: cMaster
+    100082: cSpine1
+    100084: cSpine2
+    100086: Skeleton
+    100088: //RootNode
+    400000: bBrasD1
+    400002: bBrasD2
+    400004: bBrasG1
+    400006: bBrasG2
+    400008: bDoigtD1
+    400010: bDoigtD2
+    400012: bDoigtD3
+    400014: bDoigtG1
+    400016: bDoigtG2
+    400018: bDoigtG3
+    400020: bhead
+    400022: bJambeD1
+    400024: bJambeD2
+    400026: bJambeD3
+    400028: bJambeG1
+    400030: bJambeG2
+    400032: bJambeG3
+    400034: bMainD
+    400036: bMainG
+    400038: bPiedD1
+    400040: bPiedD2
+    400042: bPiedG1
+    400044: bPiedG2
+    400046: bSpine1
+    400048: bSpine2
+    400050: cBrasD1
+    400052: cBrasD2
+    400054: cBrasG1
+    400056: cBrasG2
+    400058: cDoigtD1
+    400060: cDoigtD2
+    400062: cDoigtD3
+    400064: cDoigtG1
+    400066: cDoigtG2
+    400068: cDoigtG3
+    400070: cHEad
+    400072: cJambeD1
+    400074: cJambeG1
+    400076: cMainD
+    400078: cMainG
+    400080: cMaster
+    400082: cSpine1
+    400084: cSpine2
+    400086: Skeleton
+    400088: //RootNode
+    4300000: Skeleton
+    7400000: Skeleton@idle
+    7400002: Skeleton@Walk
+    7400004: Skeleton@Attack
+    9500000: //RootNode
+    13700000: Skeleton
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Skeleton@idle
+      takeName: Take 001
+      firstFrame: 20
+      lastFrame: 130
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Skeleton@Walk
+      takeName: Take 001
+      firstFrame: 140
+      lastFrame: 179
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Skeleton@Attack
+      takeName: Take 001
+      firstFrame: 190
+      lastFrame: 214
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
