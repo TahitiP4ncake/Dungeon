@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+ 
 
 public class RoomGenerator : MonoBehaviour {
+
+    enum orientation { nord, sud, est, west };
 
     public int x;
     public int y;
@@ -205,9 +208,9 @@ public class RoomGenerator : MonoBehaviour {
 
 
 
-        //direction = Random.Range(0, 2);
+        direction = Random.Range(0, 2);
 
-        direction = 0;
+        //direction = 0;
 
 		variation = Random.Range(-variationMax, variationMax+1);
 
@@ -223,19 +226,12 @@ public class RoomGenerator : MonoBehaviour {
                     
 
                     _y = _y / 2  + variation + startY;
-                    //print("je divise y a " + _y);
+                    
                     for (int i = startX + 1; i < endX; i++)
                     {
                         arrayColonnes[i, _y] = true;
                     }
-					/*
-                    List<int> _mur = new List<int>();
-                    _mur.Add(startX);
-                    _mur.Add(_y);
-                    _mur.Add(endX);
-                    _mur.Add(_y);
-                    listMur.Add(_mur);
-                    */
+					
 				int doorX = Random.Range(startX,endX);
 					int doorY = _y;
 					arrayPortesY [doorX, doorY] = true;
@@ -248,7 +244,7 @@ public class RoomGenerator : MonoBehaviour {
                 }
                 else if ((startX + _x / 2 - Mathf.Abs(variation) + minSize) < endX &&(startX +  _x / 2 - Mathf.Abs(variation) - minSize) > startX)
                 {
-                    //print("je divise x");
+                   
                     iteration += 1;
 
                     _x = _x / 2 + variation+startX;
@@ -258,14 +254,7 @@ public class RoomGenerator : MonoBehaviour {
                         arrayColonnes[_x, i] = true;
                     }
 					
-				/*
-                    List<int> _mur = new List<int>();
-                    _mur.Add(_x);
-                    _mur.Add(startY);
-                    _mur.Add(_x);
-                    _mur.Add(endX);
-                    listMur.Add(_mur);
-                  */
+				
 
 				int doorX = _x;
 				int doorY = Random.Range(startY,endY);
@@ -297,14 +286,7 @@ public class RoomGenerator : MonoBehaviour {
                         arrayColonnes[_x, i] = true;
                     }
 					
-				/*
-                    List<int> _mur = new List<int>();
-                    _mur.Add(_x);
-                    _mur.Add(startY);
-                    _mur.Add(_x);
-                    _mur.Add(endX);
-                    listMur.Add(_mur);
-                   */
+				
 
 					int doorX = _x;
 				int doorY =Random.Range(startY,endY);
@@ -322,14 +304,7 @@ public class RoomGenerator : MonoBehaviour {
                         arrayColonnes[i,_y] = true;
                     }
 
-					/*
-                    List<int> _mur = new List<int>();
-                    _mur.Add(startX);
-                    _mur.Add(_y);
-                    _mur.Add(endX);
-                    _mur.Add(_y);
-                    listMur.Add(_mur);
-					*/
+					
 
 				int doorX = Random.Range(startX,endX);
 				int doorY = _y;
@@ -380,7 +355,19 @@ public class RoomGenerator : MonoBehaviour {
 						if(arrayPortesX[i,o])
 						{
 							DoorX (i, o);
-						}
+
+                            if (!CheckWallY(i, o))
+                                SetTorche(orientation.west, i , o);
+                            if (!CheckBackWallY(i, o))
+                                SetTorche(orientation.est, i , o);
+
+                            if (!CheckWallY(i, o+1))
+                                SetTorche(orientation.west, i, o+1);
+                            if (!CheckBackWallY(i, o+1))
+                                SetTorche(orientation.est, i, o+1);
+
+
+                        }
 						else
 						{
 							MurX (i, o);	
@@ -395,7 +382,18 @@ public class RoomGenerator : MonoBehaviour {
 						if(arrayPortesY[i,o])
 						{
 							DoorY (i, o);
-						}
+
+                            if (!CheckWallX(i, o))
+                                SetTorche(orientation.nord, i, o);
+                            if (!CheckBackWallX(i, o))
+                                SetTorche(orientation.sud, i, o);
+
+                            if (!CheckWallX(i+1, o))
+                                SetTorche(orientation.nord, i+1, o);
+                            if (!CheckBackWallX(i+1, o))
+                                SetTorche(orientation.sud, i+1, o);
+
+                        }
 						else
 						{
 							MurY (i, o);	
@@ -452,16 +450,55 @@ public class RoomGenerator : MonoBehaviour {
         }
     }
 
-    void SetDoors()
+    bool CheckBackWallX(int _x,int _y)
     {
+        if (_x >= origin.x && _x <= x && _y > origin.y && _y <= y)
+        {
+            if (arrayColonnes[_x, _y - 1])
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+
+            //print("Point not in the room");
+            return false;
+        }
+    }
+
+    bool CheckBackWallY(int _x, int _y)
+    {
+        if (_x > origin.x && _x <= x && _y >= origin.y && _y <= y)
+        {
+            if (arrayColonnes[_x - 1, _y] == true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+
+            print("Point not in the room");
+            return false;
+        }
+    }
+
+    void SetDoors() // je crois que je n'utilise plus cette fonction
+    {               // elle sevrait à placer les portes mais j'ai utilisé un moyen plus direct
 
         print(listMur.Count);
         foreach (List<int> _listMur in listMur)
         {
-            /*
-            int _x = (int)Random.Range((float)_listMur[0], (float)_listMur[2]);
-            int _y = (int)Random.Range((float)_listMur[1], (float)_listMur[3]);
-            */
+            
             int _x = (_listMur[0] + _listMur[2]) / 2;
             int _y = (_listMur[1] + _listMur[3]) / 2;
 
@@ -469,7 +506,7 @@ public class RoomGenerator : MonoBehaviour {
                 arrayPortesX[_x,_y] = true;
             else
                 arrayPortesY[_x, _y] = true;
-            //print(_x + " "+ _y);
+            
         }
         
     }
@@ -484,5 +521,24 @@ public class RoomGenerator : MonoBehaviour {
     void DoorY(int _x, int _y)
     {
         assets.Add(Instantiate(porte, new Vector3(_x, 0, _y), colonne.transform.rotation));
+    }
+
+    void SetTorche(orientation _direction, int _x, int _y)
+    {
+        switch(_direction)
+        {
+            case orientation.west:
+                assets.Add(Instantiate(torche, new Vector3(_x, 0, _y), Quaternion.Euler(new Vector3(0, -90, 0))));
+                break;
+            case orientation.est:
+                assets.Add(Instantiate(torche, new Vector3(_x, 0, _y), Quaternion.Euler(new Vector3(0, 90, 0))));
+                break;
+            case orientation.nord:
+                assets.Add(Instantiate(torche, new Vector3(_x, 0, _y), colonne.transform.rotation));
+                break;
+            case orientation.sud:
+                assets.Add(Instantiate(torche, new Vector3(_x, 0, _y), Quaternion.Euler(new Vector3(0, 180, 0))));
+                break;
+        }
     }
 }
