@@ -64,6 +64,8 @@ public class RoomGenerator : MonoBehaviour {
 
     [Space]
 
+    public bool addTorches;
+
 	public bool generateOnStart;
 
     void Start () 
@@ -184,7 +186,7 @@ public class RoomGenerator : MonoBehaviour {
         assets.Clear();
     }
 
-    void SetParent()
+    void SetParent() //Groupe tout les objets en enfant du générateur
     {
         foreach (GameObject _asset in assets)
         {
@@ -194,13 +196,12 @@ public class RoomGenerator : MonoBehaviour {
 
     void MakeMesh(List<GameObject> _assets)
     {
-        
-        
+        //faire un seul mesh à partir du sol, des colonnes et des trucs pas cassables
     }
 
 	void Divide(int startX,int startY, int endX,int endY)
 	{
-        //print("tentative division");
+        
         
 
         int _x = endX-startX;
@@ -208,9 +209,9 @@ public class RoomGenerator : MonoBehaviour {
 
 
 
-        direction = Random.Range(0, 2);
+        direction = Random.Range(0, 2); // on choisit si on découpe en x ou en y en premier
 
-        //direction = 0;
+        
 
 		variation = Random.Range(-variationMax, variationMax+1);
 
@@ -346,17 +347,17 @@ public class RoomGenerator : MonoBehaviour {
                 
                     if (arrayColonnes[i, o])
                     {
-                        //print(aColonnes[i, o]);
+                        
                         assets.Add(Instantiate(colonne, new Vector3(i, 0, o), colonne.transform.rotation)); // on créer les colonnes
 
 
-					if(CheckWallX (i,o))
+					if(CheckWallX (i,o)) //on vérifie si on doit créer un mur
 					{
-						if(arrayPortesX[i,o])
+						if(arrayPortesX[i,o]) //on vérifie si no doit créer une porte 
 						{
 							DoorX (i, o);
 
-                            if (!CheckWallY(i, o))
+                            if (!CheckWallY(i, o))  //Si on créer une porte, on essaye de créer des torches
                                 SetTorche(orientation.west, i , o);
                             if (!CheckBackWallY(i, o))
                                 SetTorche(orientation.est, i , o);
@@ -364,13 +365,29 @@ public class RoomGenerator : MonoBehaviour {
                             if (!CheckWallY(i, o+1))
                                 SetTorche(orientation.west, i, o+1);
                             if (!CheckBackWallY(i, o+1))
-                                SetTorche(orientation.est, i, o+1);
+                            {
+
+                            }
+                                //SetTorche(orientation.est, i, o+1);
 
 
                         }
 						else
 						{
-							MurX (i, o);	
+							MurX (i, o);	//Si pas de porte, on met un mur
+
+                            if (addTorches)
+                            {
+
+                                int _choice = Random.Range(0, 4);
+                                if (_choice == 0)
+                                {
+                                    if (!CheckWallY(i, o))
+                                        SetTorche(orientation.west, i, o);
+                                    if (!CheckBackWallY(i, o))
+                                        SetTorche(orientation.est, i, o);
+                                }
+                            }
 						}
 
 
@@ -396,8 +413,21 @@ public class RoomGenerator : MonoBehaviour {
                         }
 						else
 						{
-							MurY (i, o);	
-						}
+							MurY (i, o);
+
+                            if (addTorches)
+                            {
+
+                                int _choice = Random.Range(0, 4);
+                                if (_choice == 0)
+                                {
+                                    if (!CheckWallX(i, o))
+                                        SetTorche(orientation.nord, i, o);
+                                    if (!CheckBackWallX(i, o))
+                                        SetTorche(orientation.sud, i, o);
+                                }
+                            }
+                        }
 					}
 
                     
@@ -406,7 +436,8 @@ public class RoomGenerator : MonoBehaviour {
             }
         }
 	}
-    
+
+    #region CheckWalls
 
     bool CheckWallY(int _x, int _y)
     {
@@ -491,6 +522,8 @@ public class RoomGenerator : MonoBehaviour {
             return false;
         }
     }
+
+    #endregion
 
     void SetDoors() // je crois que je n'utilise plus cette fonction
     {               // elle sevrait à placer les portes mais j'ai utilisé un moyen plus direct
