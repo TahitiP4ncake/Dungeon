@@ -10,13 +10,27 @@ public class FistPunch : MonoBehaviour {
 
     public GameObject player;
 
+	public PlayerController controller;
+
 	public RoomGenerator gen;
 
+	public GameObject cam;
+
+	public GameObject aim1;
+	public GameObject aim2;
+
+	float range;
+
     SoundManager son;
+
+	RaycastHit hit;
+
 
     private void Start()
     {
         son = SoundManager.Instance;
+
+		range = controller.range;
     }
 
     public void Punch()
@@ -24,7 +38,35 @@ public class FistPunch : MonoBehaviour {
         
         punch = true;
         timer = .1f;
+		Vector3 _direction1 = aim1.transform.position - cam.transform.position;
+		Vector3 _direction2 = aim2.transform.position - cam.transform.position;
         son.Play(son.punchAir);
+
+		Debug.DrawRay (cam.transform.position,_direction1.normalized*range,Color.white,.5f);
+		Debug.DrawRay (cam.transform.position,_direction2.normalized*range,Color.white,.5f);
+
+		if(Physics.Raycast(cam.transform.position,_direction1,out hit, range))
+		{
+			if(hit.collider.tag=="Breakable")
+			{
+				hit.collider.gameObject.GetComponent<Destructible>().Break(player);
+				son.Play(son.punchWood);
+				son.Play(son.kick);
+
+				Invoke("UpdateNavMesh",.5f);
+			}
+		}
+		else if(Physics.Raycast(cam.transform.position,_direction2,out hit, range))
+		{
+			if(hit.collider.tag=="Breakable")
+			{
+				hit.collider.gameObject.GetComponent<Destructible>().Break(player);
+				son.Play(son.punchWood);
+				son.Play(son.kick);
+
+				Invoke("UpdateNavMesh",.5f);
+			}
+		}
     }
 
     void Update()
@@ -40,7 +82,7 @@ public class FistPunch : MonoBehaviour {
         }
 
     }
-
+	/*
     void OnCollisionEnter(Collision collision)
     {
        
@@ -55,6 +97,7 @@ public class FistPunch : MonoBehaviour {
             
         }
     }
+    */
 
 	void UpdateNavMesh()
 	{

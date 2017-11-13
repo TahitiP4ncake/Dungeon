@@ -212,4 +212,5 @@ MonoBehaviour:
   - {fileID: 1187209453829184, guid: a235a293bffc691468733eff097c37ce, type: 2}
   - {fileID: 1528131536919886, guid: c5bb917dbc1b4874fbc65567a2bef7b0, type: 2}
   - {fileID: 1851573270907736, guid: f7e11d25c43803f47a7ffd5620b3ada4, type: 2}
-  force: 5
+  force: 3
+  skeleton: 0

@@ -4109,7 +4109,7 @@ MonoBehaviour:
   - {fileID: 1357373515768914}
   - {fileID: 1724069714132112}
   - {fileID: 1785874558974812}
-  force: 5
+  force: 2
   skeleton: 1
 --- !u!136 &136245864795057750
 CapsuleCollider:
@@ -4120,7 +4120,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.16
+  m_Radius: 0.19
   m_Height: 0.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.43, z: 0}

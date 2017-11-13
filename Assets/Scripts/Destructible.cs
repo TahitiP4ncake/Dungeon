@@ -18,8 +18,8 @@ public class Destructible : MonoBehaviour {
 			foreach (GameObject _part in broken) {
 				_part.SetActive (true);
 				_part.transform.SetParent (null);
-				_part.GetComponent<Rigidbody> ().AddForce ((_player.transform.forward).normalized * force * Random.Range (.9f, 1.5f), ForceMode.VelocityChange);
-				print ("cassé");
+				_part.GetComponent<Rigidbody> ().AddForce ((_player.transform.forward).normalized * force * Random.Range (.7f, 1.5f), ForceMode.VelocityChange);
+
 			}
 
 		} 

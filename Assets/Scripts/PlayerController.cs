@@ -51,6 +51,8 @@ public class PlayerController : MonoBehaviour {
     public FistPunch punch1;
     public FistPunch punch2;
 
+	public float range;
+
     [Space]
 
     public GameObject cam1;
