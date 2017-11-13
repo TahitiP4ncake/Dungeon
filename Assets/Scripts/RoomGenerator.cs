@@ -553,14 +553,14 @@ public class RoomGenerator : MonoBehaviour
 
     void DoorY(int _x, int _y)
     {
-        //assets.Add(Instantiate(porte, new Vector3(_x, 0, _y), Quaternion.Euler(new Vector3(0, -90, 0))));
-        Instantiate(porte, new Vector3(_x, 0, _y), Quaternion.Euler(new Vector3(0, -90, 0)));
+        assets.Add(Instantiate(porte, new Vector3(_x, 0, _y), Quaternion.Euler(new Vector3(0, -90, 0))));
+        //Instantiate(porte, new Vector3(_x, 0, _y), Quaternion.Euler(new Vector3(0, -90, 0)));
     }
 
     void DoorX(int _x, int _y)
     {
-        //assets.Add(Instantiate(porte, new Vector3(_x, 0, _y), colonne.transform.rotation));
-        Instantiate(porte, new Vector3(_x, 0, _y), colonne.transform.rotation);
+        assets.Add(Instantiate(porte, new Vector3(_x, 0, _y), colonne.transform.rotation));
+        //Instantiate(porte, new Vector3(_x, 0, _y), colonne.transform.rotation);
     }
 
     void SetTorche(orientation _direction, int _x, int _y)
