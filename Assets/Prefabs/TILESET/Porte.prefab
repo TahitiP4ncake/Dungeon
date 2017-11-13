@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 23289002854756260}
   - component: {fileID: 114990861976660474}
   - component: {fileID: 64132165164926298}
+  - component: {fileID: 208269434037440268}
   m_Layer: 11
   m_Name: Porte
   m_TagString: Breakable
@@ -84,7 +85,6 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -100,7 +100,6 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -118,7 +117,6 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -134,7 +132,6 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -212,5 +209,20 @@ MonoBehaviour:
   - {fileID: 1187209453829184, guid: a235a293bffc691468733eff097c37ce, type: 2}
   - {fileID: 1528131536919886, guid: c5bb917dbc1b4874fbc65567a2bef7b0, type: 2}
   - {fileID: 1851573270907736, guid: f7e11d25c43803f47a7ffd5620b3ada4, type: 2}
-  force: 3
+  force: 5
   skeleton: 0
+--- !u!208 &208269434037440268
+NavMeshObstacle:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1898596540965344}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.32700002, y: 0.39900002, z: 0.037}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.48100004, y: 0.41400003, z: 0}
+  m_TimeToStationary: 0.5

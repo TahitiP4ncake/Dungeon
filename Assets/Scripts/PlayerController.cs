@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour {
 
 	public RoomGenerator gen;
 
+    public Manager manager;
+
     public GameObject cam;
 
     public GameObject head;
@@ -91,11 +93,13 @@ public class PlayerController : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         {
             left.SetTrigger("Punch");
+            rb.AddForce(transform.forward * speed, ForceMode.VelocityChange); //petit dash quand on punch ?
             punch1.Punch();
         }
         if (Input.GetMouseButtonDown(1))
         {
             right.SetTrigger("Punch");
+            rb.AddForce(transform.forward * speed, ForceMode.VelocityChange);
             punch2.Punch();
         }
 
@@ -150,6 +154,11 @@ public class PlayerController : MonoBehaviour {
                 cam1.SetActive(true);
                 break;
         }
+    }
+
+    public void Die()
+    {
+        manager.Restart();
     }
 
 }

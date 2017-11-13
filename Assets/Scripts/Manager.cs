@@ -11,12 +11,17 @@ public class Manager : MonoBehaviour {
 	{
 		if(Input.GetKeyDown(KeyCode.Backspace))
         {
-            Scene _scene = SceneManager.GetActiveScene();
-            SceneManager.LoadSceneAsync(_scene.buildIndex);
+            Restart();
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
         }
+    }
+
+    public void Restart()
+    {
+        Scene _scene = SceneManager.GetActiveScene();
+        SceneManager.LoadSceneAsync(_scene.buildIndex);
     }
 }

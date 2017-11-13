@@ -39,9 +39,9 @@ public class RoomGenerator : MonoBehaviour
 
     List<GameObject> solNavMesh;
 
-	GameObject newGround;
+	List<GameObject> newGround;
 
-	NavMeshSurface groundSurface;
+	List<NavMeshSurface> groundSurface;
 
     //Arrays
 
@@ -116,6 +116,8 @@ public class RoomGenerator : MonoBehaviour
         arrayPortesX = new bool[x + 1, y + 1];
         arrayPortesY = new bool[x + 1, y + 1];
 		solNavMesh = new List<GameObject> ();
+        newGround = new List<GameObject>();
+        groundSurface = new List<NavMeshSurface>();
         listMur = new List<List<int>>();
 
         EraseRoom();
@@ -171,7 +173,7 @@ public class RoomGenerator : MonoBehaviour
 
 		MakeMesh (solNavMesh, true);
 
-		BakeNavMesh();
+		StartCoroutine(BakeNavMesh());
     }
 
     void Colonne(int _x, int _y)
@@ -222,42 +224,76 @@ public class RoomGenerator : MonoBehaviour
 
 	void MakeMesh(List<GameObject> _assets, bool isGround) //Unifie les mesh filter d'une liste, 
     {
-       
-		//Alors, pour l'instant je suis limité à des carrés de 13/14
-		//Au dela de ça le mesh a trop de vertex
-		//va falloir que je change ça
-		//ptn
+
+        //Alors, pour l'instant je suis limité à des carrés de 13/14
+        //Au dela de ça le mesh a trop de vertex
+        //va falloir que je change ça
+        //ptn
 
 
-		MeshFilter[] meshFilters = new MeshFilter [_assets.Count];
 
-		for (int o = 0; o < _assets.Count; o++) 
-		{
-			meshFilters [o] = _assets [o].GetComponent<MeshFilter> ();
-		}
 
-		CombineInstance[] combine = new CombineInstance[meshFilters.Length];
-		int i = 0;
-		while (i < meshFilters.Length) {
-			combine[i].mesh = meshFilters[i].sharedMesh;
-			combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
-			meshFilters[i].gameObject.active = false;
-			i++;
-		}
-		_assets[0].transform.GetComponent<MeshFilter>().sharedMesh = new Mesh();
-		_assets[0].transform.GetComponent<MeshFilter>().sharedMesh.CombineMeshes(combine);
-		_assets[0].transform.gameObject.active = true;
-		_assets [0].transform.localPosition = Vector3.zero;
-		_assets [0].transform.localEulerAngles = Vector3.zero;
-		DestroyImmediate (_assets [0].GetComponent <BoxCollider> ());
-		_assets [0].AddComponent<BoxCollider> ();
+        List<int> groundPartition = new List<int>();
+        int _temp = _assets.Count;
+        
+        while (_temp>180)
+        {
+            _temp -= 180;
+            groundPartition.Add(180);
+           
+        }
+        groundPartition.Add(_temp);
+        
+        for (int i = 0; i < groundPartition.Count; i++)
+        {
+            print(groundPartition[i]);
+        } 
+            
 
-		if(isGround)
-		{
-			newGround = _assets [0];
-			groundSurface = newGround.AddComponent<NavMeshSurface> ();
-			groundSurface.layerMask = layerMask;
-		}
+            int firstMesh = 0;
+            
+        
+
+        for (int p = 0; p < groundPartition.Count; p++) // boucle for pour faire plusieurs mesh (on évite le bug des 64k vertices)
+        {
+            //print(p);
+
+
+            MeshFilter[] meshFilters = new MeshFilter[groundPartition[p]];
+
+
+
+            for (int o = 0; o < groundPartition[p]; o++)
+            {
+                meshFilters[o] = _assets[o+firstMesh].GetComponent<MeshFilter>();
+            }
+
+            CombineInstance[] combine = new CombineInstance[meshFilters.Length];
+            int i = 0;
+            while (i < meshFilters.Length)
+            {
+                combine[i].mesh = meshFilters[i].sharedMesh;
+                combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
+                meshFilters[i].gameObject.SetActive(false);
+                i++;
+            }
+            _assets[p].transform.GetComponent<MeshFilter>().sharedMesh = new Mesh();
+            _assets[p].transform.GetComponent<MeshFilter>().sharedMesh.CombineMeshes(combine);
+            _assets[p].transform.gameObject.SetActive(true);
+            _assets[p].transform.localPosition = Vector3.zero;
+            _assets[p].transform.localEulerAngles = Vector3.zero;
+            DestroyImmediate(_assets[p].GetComponent<BoxCollider>());
+            _assets[p].AddComponent<BoxCollider>();
+
+            if (isGround)
+            {
+                newGround.Add( _assets[p]);
+                groundSurface.Add( newGround[p].AddComponent<NavMeshSurface>());
+                groundSurface[p].layerMask = layerMask;
+            }
+
+            firstMesh += 180;
+        }
 		//_assets [0].transform.GetComponent<MeshCollider> ().sharedMesh = _assets [0].GetComponent<MeshFilter> ().sharedMesh;
     }
 
@@ -634,10 +670,17 @@ public class RoomGenerator : MonoBehaviour
         }
     }
 
-    public void BakeNavMesh()
+    public IEnumerator BakeNavMesh() //Je bake/rebake le nav mesh agent pour permettre aux squelettes de passer les portes cassées
     {
+        //print("on casse des portes");
+        
+        foreach (NavMeshSurface _surface in groundSurface)
+        {
+            _surface.BuildNavMesh();
+            yield return new WaitForSeconds(.1f);
+        }
+        
 		
-		groundSurface.BuildNavMesh ();
 
         //navigationSurface.BuildNavMesh();
 

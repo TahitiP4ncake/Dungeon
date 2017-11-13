@@ -19,6 +19,8 @@ public class FistPunch : MonoBehaviour {
 	public GameObject aim1;
 	public GameObject aim2;
 
+    public BoxCollider fistCol;
+
 	float range;
 
     SoundManager son;
@@ -31,16 +33,23 @@ public class FistPunch : MonoBehaviour {
         son = SoundManager.Instance;
 
 		range = controller.range;
+        fistCol.enabled = false;
     }
 
     public void Punch()
     {
         
         punch = true;
-        timer = .1f;
-		Vector3 _direction1 = aim1.transform.position - cam.transform.position;
-		Vector3 _direction2 = aim2.transform.position - cam.transform.position;
+        timer = .2f;
+
         son.Play(son.punchAir);
+
+        fistCol.enabled = true;
+
+        /*
+        Vector3 _direction1 = aim1.transform.position - cam.transform.position;
+		Vector3 _direction2 = aim2.transform.position - cam.transform.position;
+        
 
 		Debug.DrawRay (cam.transform.position,_direction1.normalized*range,Color.white,.5f);
 		Debug.DrawRay (cam.transform.position,_direction2.normalized*range,Color.white,.5f);
@@ -67,6 +76,7 @@ public class FistPunch : MonoBehaviour {
 				Invoke("UpdateNavMesh",.5f);
 			}
 		}
+        */
     }
 
     void Update()
@@ -77,12 +87,13 @@ public class FistPunch : MonoBehaviour {
             if (timer <= 0)
             {
                 timer = 0;
+                fistCol.enabled = false;
                 punch = false;
             }
         }
 
     }
-	/*
+    /*
     void OnCollisionEnter(Collision collision)
     {
        
@@ -99,8 +110,22 @@ public class FistPunch : MonoBehaviour {
     }
     */
 
-	void UpdateNavMesh()
+    private void OnTriggerEnter(Collider other)
+    {
+        if (punch && other.gameObject.tag == "Breakable")
+        {
+            other.gameObject.GetComponent<Destructible>().Break(player);
+            son.Play(son.punchWood);
+            /*son.Play(son.kick);
+
+            if(other.gameObject.GetComponent<SkeletonBehaviour>()==null)
+            Invoke("UpdateNavMesh", .2f);
+            */
+        }
+    }
+
+    void UpdateNavMesh()
 	{
-		gen.BakeNavMesh ();
+		StartCoroutine(gen.BakeNavMesh ());
 	}
 }
