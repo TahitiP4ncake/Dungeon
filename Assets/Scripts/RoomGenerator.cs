@@ -39,7 +39,9 @@ public class RoomGenerator : MonoBehaviour
 
     List<GameObject> solNavMesh;
 
-    public NavMeshSurface navigationSurface;
+	GameObject newGround;
+
+	NavMeshSurface groundSurface;
 
     //Arrays
 
@@ -75,6 +77,10 @@ public class RoomGenerator : MonoBehaviour
 
     public bool generateOnStart;
 
+	int layer = 11;
+	LayerMask layerMask;
+
+
     void Start()
     {
         if (generateOnStart)
@@ -101,12 +107,15 @@ public class RoomGenerator : MonoBehaviour
 
     public void DrawRoom()
     {
+
+		layerMask = 1 << layer;
+
         iteration = 0;
 
         arrayColonnes = new bool[x + 1, y + 1];
         arrayPortesX = new bool[x + 1, y + 1];
         arrayPortesY = new bool[x + 1, y + 1];
-        
+		solNavMesh = new List<GameObject> ();
         listMur = new List<List<int>>();
 
         EraseRoom();
@@ -157,9 +166,12 @@ public class RoomGenerator : MonoBehaviour
 
         CreateRooms();
 
+
         SetParent();
 
-        BakeNavMesh();
+		MakeMesh (solNavMesh, true);
+
+		BakeNavMesh();
     }
 
     void Colonne(int _x, int _y)
@@ -185,7 +197,8 @@ public class RoomGenerator : MonoBehaviour
         int _choice = Random.Range(0, sol.Count);
         GameObject _sol = Instantiate(sol[_choice], new Vector3(_x, 0, _y), Quaternion.Euler(new Vector3(0, -90, 0)));
         assets.Add(_sol);
-        solNavMesh.Add(_sol);
+		solNavMesh.Add (_sol);
+        
 
     }
 
@@ -207,9 +220,45 @@ public class RoomGenerator : MonoBehaviour
         }
     }
 
-    void MakeMesh(List<GameObject> _assets)
+	void MakeMesh(List<GameObject> _assets, bool isGround) //Unifie les mesh filter d'une liste, 
     {
-        //faire un seul mesh à partir du sol, des colonnes et des trucs pas cassables
+       
+		//Alors, pour l'instant je suis limité à des carrés de 13/14
+		//Au dela de ça le mesh a trop de vertex
+		//va falloir que je change ça
+		//ptn
+
+
+		MeshFilter[] meshFilters = new MeshFilter [_assets.Count];
+
+		for (int o = 0; o < _assets.Count; o++) 
+		{
+			meshFilters [o] = _assets [o].GetComponent<MeshFilter> ();
+		}
+
+		CombineInstance[] combine = new CombineInstance[meshFilters.Length];
+		int i = 0;
+		while (i < meshFilters.Length) {
+			combine[i].mesh = meshFilters[i].sharedMesh;
+			combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
+			meshFilters[i].gameObject.active = false;
+			i++;
+		}
+		_assets[0].transform.GetComponent<MeshFilter>().sharedMesh = new Mesh();
+		_assets[0].transform.GetComponent<MeshFilter>().sharedMesh.CombineMeshes(combine);
+		_assets[0].transform.gameObject.active = true;
+		_assets [0].transform.localPosition = Vector3.zero;
+		_assets [0].transform.localEulerAngles = Vector3.zero;
+		DestroyImmediate (_assets [0].GetComponent <BoxCollider> ());
+		_assets [0].AddComponent<BoxCollider> ();
+
+		if(isGround)
+		{
+			newGround = _assets [0];
+			groundSurface = newGround.AddComponent<NavMeshSurface> ();
+			groundSurface.layerMask = layerMask;
+		}
+		//_assets [0].transform.GetComponent<MeshCollider> ().sharedMesh = _assets [0].GetComponent<MeshFilter> ().sharedMesh;
     }
 
     void Divide(int startX, int startY, int endX, int endY)
@@ -587,12 +636,19 @@ public class RoomGenerator : MonoBehaviour
 
     public void BakeNavMesh()
     {
-        navigationSurface.BuildNavMesh();
-        /*
-        for(int i=0 ; i<solNavMesh.Count ; i++)
+		
+		groundSurface.BuildNavMesh ();
+
+        //navigationSurface.BuildNavMesh();
+
+		//NavMeshBuilder.BuildNavMeshData ();
+        
+		/*
+        for(int i=0 ; i<navigationSurface.Count ; i++)
         {
-            
+			navigationSurface [i].BuildNavMesh ();
+			yield return new WaitForEndOfFrame ();
         }
         */
-    }
+    } 
 }

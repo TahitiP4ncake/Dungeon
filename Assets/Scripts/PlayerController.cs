@@ -6,6 +6,8 @@ public class PlayerController : MonoBehaviour {
 
     #region Variables
 
+	public RoomGenerator gen;
+
     public GameObject cam;
 
     public GameObject head;

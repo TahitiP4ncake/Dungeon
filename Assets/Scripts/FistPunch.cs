@@ -10,6 +10,8 @@ public class FistPunch : MonoBehaviour {
 
     public GameObject player;
 
+	public RoomGenerator gen;
+
     SoundManager son;
 
     private void Start()
@@ -48,7 +50,14 @@ public class FistPunch : MonoBehaviour {
             collision.gameObject.GetComponent<Destructible>().Break(player);
             son.Play(son.punchWood);
             son.Play(son.kick);
+
+			Invoke("UpdateNavMesh",.5f);
             
         }
     }
+
+	void UpdateNavMesh()
+	{
+		gen.BakeNavMesh ();
+	}
 }
