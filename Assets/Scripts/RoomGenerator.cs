@@ -39,6 +39,8 @@ public class RoomGenerator : MonoBehaviour
 
     List<GameObject> solNavMesh;
 
+    public NavMeshSurface navigationSurface;
+
     //Arrays
 
     public bool[,] arrayColonnes;
@@ -104,6 +106,7 @@ public class RoomGenerator : MonoBehaviour
         arrayColonnes = new bool[x + 1, y + 1];
         arrayPortesX = new bool[x + 1, y + 1];
         arrayPortesY = new bool[x + 1, y + 1];
+        
         listMur = new List<List<int>>();
 
         EraseRoom();
@@ -582,11 +585,14 @@ public class RoomGenerator : MonoBehaviour
         }
     }
 
-    void BakeNavMesh()
+    public void BakeNavMesh()
     {
+        navigationSurface.BuildNavMesh();
+        /*
         for(int i=0 ; i<solNavMesh.Count ; i++)
         {
             
         }
+        */
     }
 }
