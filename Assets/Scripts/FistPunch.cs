@@ -20,6 +20,7 @@ public class FistPunch : MonoBehaviour {
 	public GameObject aim2;
 
     public BoxCollider fistCol;
+	public BoxCollider headCol;
 
 	float range;
 
@@ -45,6 +46,7 @@ public class FistPunch : MonoBehaviour {
         son.Play(son.punchAir);
 
         fistCol.enabled = true;
+		headCol.enabled = true;
 
         /*
         Vector3 _direction1 = aim1.transform.position - cam.transform.position;
@@ -88,6 +90,7 @@ public class FistPunch : MonoBehaviour {
             {
                 timer = 0;
                 fistCol.enabled = false;
+				headCol.enabled = false;
                 punch = false;
             }
         }

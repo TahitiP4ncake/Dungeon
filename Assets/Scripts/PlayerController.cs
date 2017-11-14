@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour {
     public GameObject rightFist;
     public GameObject leftFist;
 
+	public bool controls;
+
     float camX;
     float camY;
 
@@ -60,6 +62,10 @@ public class PlayerController : MonoBehaviour {
     public GameObject cam1;
     public GameObject cam2;
 
+	[Space]
+
+	public ParticleSystem transition;
+
     #endregion
 
     void Start()
@@ -67,13 +73,23 @@ public class PlayerController : MonoBehaviour {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
-        cameraLerper.transform.SetParent(null);
-        rightFist.transform.SetParent(null);
-        leftFist.transform.SetParent(null);
+		Setup ();
+
     }
+
+	void Setup()
+	{
+		controls = true;
+
+		cameraLerper.transform.SetParent(null);
+		rightFist.transform.SetParent(null);
+		leftFist.transform.SetParent(null);
+	}
+
 
     void Update () 
 	{
+		if(controls)
         CheckInputs();
 	}
 
@@ -160,5 +176,31 @@ public class PlayerController : MonoBehaviour {
     {
         manager.Restart();
     }
+
+	void OnTriggerEnter(Collider other)
+	{
+		if(other.tag=="EndOfLevel")
+		{
+
+			cameraLerper.transform.SetParent(gameObject.transform);
+			rightFist.transform.SetParent(gameObject.transform);
+			leftFist.transform.SetParent(gameObject.transform);
+
+			transition.gameObject.SetActive (true);
+			//transition.Play ();
+
+			other.gameObject.SetActive (false);
+			Invoke ("NextLevel", 1.75f);
+
+
+
+		}
+	}
+
+	void NextLevel()
+	{
+		manager.NextLevel ();
+		Setup ();
+	}
 
 }

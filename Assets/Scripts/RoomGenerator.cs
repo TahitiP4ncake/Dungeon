@@ -82,13 +82,21 @@ public class RoomGenerator : MonoBehaviour
 
     public GameObject startOfLevel;
 
+	GameObject spawn;
+
     public GameObject endOfLevel;
+
+	public GameObject player;
 
 
     void Start()
     {
+		/*
         if (generateOnStart)
             DrawRoom();
+
+		PlayerPosition ();
+		*/
     }
 
     /*
@@ -180,6 +188,8 @@ public class RoomGenerator : MonoBehaviour
 		StartCoroutine(BakeNavMesh());
 
         SetPlayer();
+
+		PlayerPosition ();
             
     }
 
@@ -215,7 +225,7 @@ public class RoomGenerator : MonoBehaviour
     {
         foreach (GameObject _asset in assets)
         {
-            DestroyImmediate(_asset);
+            Destroy(_asset);
         }
         assets.Clear();
     }
@@ -289,7 +299,7 @@ public class RoomGenerator : MonoBehaviour
             _assets[p].transform.gameObject.SetActive(true);
             _assets[p].transform.localPosition = Vector3.zero;
             _assets[p].transform.localEulerAngles = Vector3.zero;
-            DestroyImmediate(_assets[p].GetComponent<BoxCollider>());
+            Destroy(_assets[p].GetComponent<BoxCollider>());
             _assets[p].AddComponent<BoxCollider>();
 
             if (isGround)
@@ -680,7 +690,8 @@ public class RoomGenerator : MonoBehaviour
     public IEnumerator BakeNavMesh() //Je bake/rebake le nav mesh agent pour permettre aux squelettes de passer les portes cassées
     {
         //print("on casse des portes");
-        
+		yield return null;
+
         foreach (NavMeshSurface _surface in groundSurface)
         {
             _surface.BuildNavMesh();
@@ -688,24 +699,22 @@ public class RoomGenerator : MonoBehaviour
         }
         
 		
-
-        //navigationSurface.BuildNavMesh();
-
-		//NavMeshBuilder.BuildNavMeshData ();
-        
-		/*
-        for(int i=0 ; i<navigationSurface.Count ; i++)
-        {
-			navigationSurface [i].BuildNavMesh ();
-			yield return new WaitForEndOfFrame ();
-        }
-        */
+		//ça marche à runtim quand je regénère la room
+		//je fais spawner les squelettes après la génération du navmesh
     } 
 
     void SetPlayer()
     {
-        assets.Add(Instantiate(startOfLevel, new Vector3(origin.x + .5f, origin.y, origin.z + .5f), startOfLevel.transform.rotation)); //Set le spawn à cet endroit làn faut bouger le player dessus
+		spawn = Instantiate(startOfLevel, new Vector3(origin.x + .5f, origin.y, origin.z + .5f), startOfLevel.transform.rotation); //Set le spawn à cet endroit làn faut bouger le player dessus
+		assets.Add(spawn);
 
         assets.Add(Instantiate(endOfLevel, new Vector3(origin.x + Random.Range(x - x / 2, x)+.5f, origin.y, origin.z +  Random.Range(y - y / 2, y)+.5f), endOfLevel.transform.rotation));
     }
+
+	public void PlayerPosition()
+	{
+		player.transform.position = spawn.transform.position+Vector3.up;
+
+		player.transform.rotation = spawn.transform.rotation;
+	}
 }
