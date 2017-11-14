@@ -39,6 +39,7 @@ public class Manager : MonoBehaviour {
 
     public void Restart()
     {
+        activeLevel = 0;
         Scene _scene = SceneManager.GetActiveScene();
         SceneManager.LoadSceneAsync(_scene.buildIndex);
     }

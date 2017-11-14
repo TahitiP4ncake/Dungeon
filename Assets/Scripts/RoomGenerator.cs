@@ -33,6 +33,8 @@ public class RoomGenerator : MonoBehaviour
 
     #endregion
 
+    public SkeletonBehaviour skeleton;
+
     [Space]
 
     public List<GameObject> assets;
@@ -87,6 +89,12 @@ public class RoomGenerator : MonoBehaviour
     public GameObject endOfLevel;
 
 	public GameObject player;
+
+    public PlayerController controller;
+
+    [Space]
+
+    public int difficulty;
 
 
     void Start()
@@ -381,8 +389,28 @@ public class RoomGenerator : MonoBehaviour
                 }
                 else
                 {
-                    //print(_x + " " + _y);
-                    //Debug.Log("Can't Divide more");
+                    if (startX > 3 || startY > 3) //Je vérifie que ce n'est pas la salle de départ
+                    {
+                        
+                        int _choice = Random.Range(0, 4);
+                        if (_choice <= difficulty)          //Je check en fonction de la difficulté
+                        {
+                            for (int i = startX; i < endX; i++)
+                            {
+                                for (int o = startY; o < endY; o++)
+                                {
+                                    _choice = Random.Range(0, 4);
+                                    if (_choice <= difficulty)
+                                    {
+                                        GameObject _skeleton = Instantiate(skeleton.gameObject, new Vector3(i + .5f, 0, o + .5f), Quaternion.Euler(new Vector3(0, Random.Range(-90, 90), 0)));
+                                        SkeletonBehaviour _skeletonBehaviour = _skeleton.GetComponent<SkeletonBehaviour>();
+                                        _skeletonBehaviour.player = player;
+                                        assets.Add(_skeleton);
+                                    }
+                                }
+                            }
+                        }
+                    }
                     return;
                 }
 
@@ -432,6 +460,30 @@ public class RoomGenerator : MonoBehaviour
                 }
                 else
                 {
+                    if (startX > 3 || startY > 3)
+                    {
+
+                        int _choice = Random.Range(0, 4);
+                        if (_choice <= difficulty)
+                        {
+                            for (int i = startX; i < endX; i++)
+                            {
+                                for (int o = startY; o < endY; o++)
+                                {
+                                    _choice = Random.Range(0, 4);
+                                    if (_choice <= difficulty)
+                                    {
+                                        GameObject _skeleton = Instantiate(skeleton.gameObject, new Vector3(i + .5f, 0, o + .5f), Quaternion.Euler(new Vector3(0, Random.Range(-90, 90), 0)));
+                                        SkeletonBehaviour _skeletonBehaviour = _skeleton.GetComponent<SkeletonBehaviour>();
+                                        _skeletonBehaviour.player = player;
+                                        assets.Add(_skeleton);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    return;
+
                     //Debug.Log("Can't Divide more");
                 }
 

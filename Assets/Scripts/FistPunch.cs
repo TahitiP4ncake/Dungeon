@@ -119,8 +119,11 @@ public class FistPunch : MonoBehaviour {
         {
             other.gameObject.GetComponent<Destructible>().Break(player);
             son.Play(son.punchWood);
-            /*son.Play(son.kick);
 
+            StartCoroutine(controller.shaker.Shake(.02f,.2f));
+
+            /*son.Play(son.kick);
+            
             if(other.gameObject.GetComponent<SkeletonBehaviour>()==null)
             Invoke("UpdateNavMesh", .2f);
             */

@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour {
 
     public GameObject cam;
 
+    public CameraShake shaker;
+
     public GameObject head;
 
     public GameObject cameraLerper;
@@ -174,7 +176,7 @@ public class PlayerController : MonoBehaviour {
 
     public void Die()
     {
-        manager.Restart();
+        //manager.Restart();
     }
 
 	void OnTriggerEnter(Collider other)
@@ -186,14 +188,15 @@ public class PlayerController : MonoBehaviour {
 			rightFist.transform.SetParent(gameObject.transform);
 			leftFist.transform.SetParent(gameObject.transform);
 
-			transition.gameObject.SetActive (true);
-			//transition.Play ();
+			//transition.gameObject.SetActive (true);
+			transition.Play ();
 
 			other.gameObject.SetActive (false);
 			Invoke ("NextLevel", 1.75f);
 
+            StartCoroutine(shaker.Shake(.01f, 3));
 
-
+            Invoke("StopParticles", 3);
 		}
 	}
 
@@ -202,5 +205,10 @@ public class PlayerController : MonoBehaviour {
 		manager.NextLevel ();
 		Setup ();
 	}
+
+    void StopParticles()
+    {
+        transition.Stop();
+    }
 
 }

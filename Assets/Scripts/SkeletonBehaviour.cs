@@ -32,6 +32,12 @@ public class SkeletonBehaviour : MonoBehaviour {
 
     private void Start()
     {
+        Invoke("StartSkeleton", .5f);
+        
+    }
+
+    void StartSkeleton()
+    {
         StartCoroutine(CheckPlayer());
     }
 
