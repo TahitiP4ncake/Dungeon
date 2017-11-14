@@ -80,6 +80,10 @@ public class RoomGenerator : MonoBehaviour
 	int layer = 11;
 	LayerMask layerMask;
 
+    public GameObject startOfLevel;
+
+    public GameObject endOfLevel;
+
 
     void Start()
     {
@@ -174,6 +178,9 @@ public class RoomGenerator : MonoBehaviour
 		MakeMesh (solNavMesh, true);
 
 		StartCoroutine(BakeNavMesh());
+
+        SetPlayer();
+            
     }
 
     void Colonne(int _x, int _y)
@@ -694,4 +701,11 @@ public class RoomGenerator : MonoBehaviour
         }
         */
     } 
+
+    void SetPlayer()
+    {
+        assets.Add(Instantiate(startOfLevel, new Vector3(origin.x + .5f, origin.y, origin.z + .5f), startOfLevel.transform.rotation)); //Set le spawn à cet endroit làn faut bouger le player dessus
+
+        assets.Add(Instantiate(endOfLevel, new Vector3(origin.x + Random.Range(x - x / 2, x)+.5f, origin.y, origin.z +  Random.Range(y - y / 2, y)+.5f), endOfLevel.transform.rotation));
+    }
 }
