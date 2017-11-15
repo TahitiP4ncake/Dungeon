@@ -573,7 +573,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1425244975220006
 GameObject:
   m_ObjectHideFlags: 1
@@ -628,8 +628,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4748743415568002}
   - component: {fileID: 20574605979812934}
-  - component: {fileID: 92051019549977980}
-  - component: {fileID: 124137677331295218}
   - component: {fileID: 81002142850846200}
   - component: {fileID: 114611099700004888}
   - component: {fileID: 114262615320386534}
@@ -1114,6 +1112,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4909296062777584}
   - component: {fileID: 20705971693314332}
+  - component: {fileID: 92565808086801524}
   - component: {fileID: 114185432985242500}
   - component: {fileID: 114485077606862270}
   m_Layer: 0
@@ -2850,19 +2849,19 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1170340868245042}
   m_Enabled: 1
---- !u!92 &92051019549977980
-Behaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1530543673933626}
-  m_Enabled: 1
 --- !u!92 &92262109073435036
 Behaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1170340868245042}
+  m_Enabled: 1
+--- !u!92 &92565808086801524
+Behaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1872511316794950}
   m_Enabled: 1
 --- !u!95 &95177399675119582
 Animator:
@@ -2976,7 +2975,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1872511316794950}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
   m_Name: 
@@ -3026,10 +3025,14 @@ MonoBehaviour:
   right: {fileID: 95750318640329278}
   punch1: {fileID: 114021657350853410}
   punch2: {fileID: 114104992180296518}
+  punchCooldown: 0.5
   range: 1
   cam1: {fileID: 1530543673933626}
   cam2: {fileID: 1170340868245042}
   transition: {fileID: 198187604479328172}
+  effect: {fileID: 114485077606862270}
+  mat1: {fileID: 2100000, guid: 54925ef0e4d0cfc4e9ce754b3ac5cbdc, type: 2}
+  mat2: {fileID: 2100000, guid: 93930f3484475b94c88de78d58fd1c7b, type: 2}
 --- !u!114 &114485077606862270
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3107,13 +3110,6 @@ MonoBehaviour:
   target: {fileID: 1287101599838594}
   rb: {fileID: 54253421382301034}
   lerpSpeed: 0.8
---- !u!124 &124137677331295218
-Behaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1530543673933626}
-  m_Enabled: 1
 --- !u!124 &124324946933098242
 Behaviour:
   m_ObjectHideFlags: 1
@@ -3269,7 +3265,7 @@ ParticleSystem:
   simulationSpeed: 1
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1

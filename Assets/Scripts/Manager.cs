@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class Manager : MonoBehaviour {
 
 	public PlayerController player;
 
 	public RoomGenerator generator;
+
+    public GameObject gameOverText;
 
 	[Space]
 
@@ -21,6 +24,8 @@ public class Manager : MonoBehaviour {
 	void Start()
 	{
 		LoadLevel ();
+
+        //StartCoroutine(ShakeText());
 	}
 
 	void Update () 
@@ -39,9 +44,13 @@ public class Manager : MonoBehaviour {
 
     public void Restart()
     {
-        activeLevel = 0;
+        activeLevel = -1;
+        /*
         Scene _scene = SceneManager.GetActiveScene();
         SceneManager.LoadSceneAsync(_scene.buildIndex);
+        */
+
+        NextLevel();
     }
 
 	public void NextLevel()
@@ -68,4 +77,17 @@ public class Manager : MonoBehaviour {
 
 		generator.DrawRoom ();
 	}
+
+    IEnumerator ShakeText()
+    {
+        Vector3 _origin = gameOverText.transform.localPosition;
+
+        float range = 5;
+
+        while(true)
+        {
+            gameOverText.transform.localPosition = new Vector3(_origin.x + Random.Range(-range, range), _origin.y + Random.Range(-range, range), _origin.z);
+            yield return null;
+        }
+    }
 }

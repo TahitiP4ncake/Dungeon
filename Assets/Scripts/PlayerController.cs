@@ -57,6 +57,11 @@ public class PlayerController : MonoBehaviour {
     public FistPunch punch1;
     public FistPunch punch2;
 
+    bool punched1;
+    bool punched2;
+
+    public float punchCooldown;
+
 	public float range;
 
     [Space]
@@ -67,6 +72,10 @@ public class PlayerController : MonoBehaviour {
 	[Space]
 
 	public ParticleSystem transition;
+
+    public PostEffect effect;
+    public Material mat1;
+    public Material mat2;
 
     #endregion
 
@@ -108,17 +117,21 @@ public class PlayerController : MonoBehaviour {
         
         head.transform.localEulerAngles = new Vector3(0, 0, Mathf.LerpAngle(head.transform.localEulerAngles.z, x * tiltAngle, Time.deltaTime * 5));
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !punched1)
         {
             left.SetTrigger("Punch");
             rb.AddForce(transform.forward * speed, ForceMode.VelocityChange); //petit dash quand on punch ?
             punch1.Punch();
+            punched1 = true;
+            Invoke("PunchBack1", punchCooldown);
         }
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && !punched2)
         {
             right.SetTrigger("Punch");
             rb.AddForce(transform.forward * speed, ForceMode.VelocityChange);
             punch2.Punch();
+            punched2 = true;
+            Invoke("PunchBack2", punchCooldown);
         }
 
         if(Input.GetKeyDown(KeyCode.Space))
@@ -176,6 +189,10 @@ public class PlayerController : MonoBehaviour {
 
     public void Die()
     {
+
+        StartCoroutine(shaker.Shake(0.05f,.2f));
+        effect.effect = mat2;
+        Invoke("SetEffect", .2f);
         //manager.Restart();
     }
 
@@ -209,6 +226,21 @@ public class PlayerController : MonoBehaviour {
     void StopParticles()
     {
         transition.Stop();
+    }
+
+    void SetEffect()
+    {
+        effect.effect = mat1;
+    }
+
+    void PunchBack1()
+    {
+        punched1 = false;
+    }
+
+    void PunchBack2()
+    {
+        punched2 = false;
     }
 
 }
