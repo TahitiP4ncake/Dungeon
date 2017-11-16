@@ -269,12 +269,13 @@ public class RoomGenerator : MonoBehaviour
         }
         groundPartition.Add(_temp);
         
+		/*
         for (int i = 0; i < groundPartition.Count; i++)
         {
             print(groundPartition[i]);
         } 
             
-
+*/
             int firstMesh = 0;
             
         

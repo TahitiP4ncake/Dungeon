@@ -84,6 +84,8 @@ public class PlayerController : MonoBehaviour {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
+		transition.Stop ();
+
 		Setup ();
 
     }
@@ -191,6 +193,7 @@ public class PlayerController : MonoBehaviour {
     {
 
         StartCoroutine(shaker.Shake(0.05f,.2f));
+		StartCoroutine (FreezeFrame());
         effect.effect = mat2;
         Invoke("SetEffect", .2f);
         //manager.Restart();
@@ -206,7 +209,9 @@ public class PlayerController : MonoBehaviour {
 			leftFist.transform.SetParent(gameObject.transform);
 
 			//transition.gameObject.SetActive (true);
+			print (transition.isPlaying);
 			transition.Play ();
+
 
 			other.gameObject.SetActive (false);
 			Invoke ("NextLevel", 1.75f);
@@ -242,5 +247,13 @@ public class PlayerController : MonoBehaviour {
     {
         punched2 = false;
     }
+
+	IEnumerator FreezeFrame()
+	{
+		Time.timeScale = .05f;
+		yield return new WaitForSecondsRealtime (.1f);
+		Time.timeScale = 1;
+		Time.fixedDeltaTime = 0.02f * Time.timeScale;
+	}
 
 }

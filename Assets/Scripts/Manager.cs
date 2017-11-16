@@ -78,8 +78,10 @@ public class Manager : MonoBehaviour {
 		generator.DrawRoom ();
 	}
 
-    IEnumerator ShakeText()
+    IEnumerator ShakeText() //Faire trembler le texte
     {
+		gameOverText.SetActive (true);
+
         Vector3 _origin = gameOverText.transform.localPosition;
 
         float range = 5;
@@ -90,4 +92,5 @@ public class Manager : MonoBehaviour {
             yield return null;
         }
     }
+
 }
