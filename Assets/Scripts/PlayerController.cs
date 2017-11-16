@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
 
@@ -77,6 +78,12 @@ public class PlayerController : MonoBehaviour {
     public Material mat1;
     public Material mat2;
 
+    [Space]
+
+    public float health;
+
+    public Slider healthBar;
+
     #endregion
 
     void Start()
@@ -87,6 +94,7 @@ public class PlayerController : MonoBehaviour {
 		transition.Stop ();
 
 		Setup ();
+        
 
     }
 
@@ -97,6 +105,7 @@ public class PlayerController : MonoBehaviour {
 		cameraLerper.transform.SetParent(null);
 		rightFist.transform.SetParent(null);
 		leftFist.transform.SetParent(null);
+        StartCoroutine(LifeTime());
 	}
 
 
@@ -104,6 +113,8 @@ public class PlayerController : MonoBehaviour {
 	{
 		if(controls)
         CheckInputs();
+
+
 	}
 
     void CheckInputs()
@@ -191,6 +202,8 @@ public class PlayerController : MonoBehaviour {
 
     public void Die()
     {
+        health -= 10;
+        healthBar.value = health;
 
         StartCoroutine(shaker.Shake(0.05f,.2f));
 		StartCoroutine (FreezeFrame());
@@ -203,7 +216,7 @@ public class PlayerController : MonoBehaviour {
 	{
 		if(other.tag=="EndOfLevel")
 		{
-
+            controls = false;
 			cameraLerper.transform.SetParent(gameObject.transform);
 			rightFist.transform.SetParent(gameObject.transform);
 			leftFist.transform.SetParent(gameObject.transform);
@@ -255,5 +268,30 @@ public class PlayerController : MonoBehaviour {
 		Time.timeScale = 1;
 		Time.fixedDeltaTime = 0.02f * Time.timeScale;
 	}
+
+    IEnumerator LifeTime()
+    {
+        while(controls)
+        {
+            health--;
+            healthBar.value = health / 100;
+
+            if(health<=0)
+            {
+                print("GAME OVER!");
+                break;
+            }
+
+            yield return new WaitForSecondsRealtime(.5f);
+
+
+        }
+    }
+
+    public void Kill()
+    {
+        health += 1;
+        StartCoroutine(shaker.Shake(.02f, .2f));
+    }
 
 }

@@ -120,7 +120,9 @@ public class FistPunch : MonoBehaviour {
             other.gameObject.GetComponent<Destructible>().Break(player);
             son.Play(son.punchWood);
 
-            StartCoroutine(controller.shaker.Shake(.02f,.2f));
+            controller.Kill();
+
+            
 
             /*son.Play(son.kick);
             

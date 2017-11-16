@@ -38,13 +38,16 @@ public class SkeletonBehaviour : MonoBehaviour {
 
     void StartSkeleton()
     {
-        StartCoroutine(CheckPlayer());
+        StartCoroutine(Idle());
     }
 
     IEnumerator CheckPlayer()
     {
         while(alive)
         {
+            if (Vector3.Distance(transform.position, player.transform.position) > 5)
+                break;
+
             if (!following) //Si il n'a pas repéré le joueur
             {
                 direction = player.transform.position - transform.position;
@@ -78,6 +81,9 @@ public class SkeletonBehaviour : MonoBehaviour {
 
             yield return new WaitForSeconds(.1f);
         }
+
+
+        StartCoroutine(Idle());
     }
 
     private void OnTriggerEnter(Collider other)
@@ -104,5 +110,16 @@ public class SkeletonBehaviour : MonoBehaviour {
         attacking = false;
         nav.isStopped = false;
         
+    }
+
+    IEnumerator Idle()
+    {
+        while(Vector3.Distance(transform.position,player.transform.position)>5)
+        {
+
+            yield return new WaitForSecondsRealtime(.2f);
+        }
+
+        StartCoroutine(CheckPlayer());
     }
 }

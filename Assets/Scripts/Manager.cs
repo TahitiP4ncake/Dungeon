@@ -57,6 +57,8 @@ public class Manager : MonoBehaviour {
 	{
 		player.controls = false;
 		activeLevel++;
+        if(generator.difficulty<4)
+        generator.difficulty++;
 		LoadLevel ();
 		player.controls = true;
 
@@ -92,5 +94,7 @@ public class Manager : MonoBehaviour {
             yield return null;
         }
     }
+
+    
 
 }
