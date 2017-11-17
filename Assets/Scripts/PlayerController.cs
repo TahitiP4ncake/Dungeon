@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 
@@ -200,7 +201,7 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    public void Die()
+    public void Hurt()
     {
         health -= 10;
         healthBar.value = health;
@@ -290,8 +291,13 @@ public class PlayerController : MonoBehaviour {
 
     public void Kill()
     {
-        health += 1;
+        health += .5f;
         StartCoroutine(shaker.Shake(.02f, .2f));
     }
+
+	void Die()
+	{
+		SceneManager.LoadScene (0);
+	}
 
 }

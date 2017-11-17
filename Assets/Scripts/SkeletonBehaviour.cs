@@ -90,7 +90,7 @@ public class SkeletonBehaviour : MonoBehaviour {
     {
         if(other.tag =="Player")
         {
-            player.GetComponent<PlayerController>().Die();
+            player.GetComponent<PlayerController>().Hurt();
         }
     }
 
